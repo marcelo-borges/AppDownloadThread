@@ -1,5 +1,6 @@
 inherited dmLogDownload: TdmLogDownload
   OldCreateOrder = True
+  OnDestroy = DataModuleDestroy
   Height = 167
   Width = 351
   inherited Conexao: TFDConnection

@@ -1,4 +1,4 @@
-unit uThreadDownload;
+unit Model.ThreadDownload;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   StdCtrls, ComCtrls, ExtCtrls, IdAntiFreezeBase, IdAntiFreeze, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, IdIOHandler, IdIOHandlerStream,
   System.Threading, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL, Forms,
-  uLogDownload, uLogDownloadController;
+  Controller.LogDownload;
 
 type
   TStatus = (stExecutando, stFinalizadoComErro, stCanceladoPeloUsuario, stFinalizadoComSucesso);
@@ -22,7 +22,7 @@ type
     FLabel: TLabel;
     FStatus: TStatus;
     FTarefa: itask;
-    FlogDownload: TLogDownload;
+    FCodigo: Integer;
     FLogDownloadController: TLogDownloadController;
 
     procedure ConfigurarHTTPDownload;
@@ -39,8 +39,8 @@ type
     procedure SetStatus(const Value: TStatus);
     function GetStatus: TStatus;
   public
-    constructor Create(AProgressBar: TProgressBar; ALabel: TLabel); reintroduce;
-    destructor Destroy;
+    constructor Create(AProgressBar: TProgressBar; ALabel: TLabel);
+    destructor Destroy; override;
 
     procedure FazerDownload(AUrl: string);
     procedure CancelarDownload;
@@ -62,8 +62,7 @@ procedure TThreadDownload.CancelarDownload;
 begin
   FTarefa.Cancel;
   FStatus := stCanceladoPeloUsuario;
-  FlogDownload.DataFim := Now;
-  FLogDownloadController.Alterar(FlogDownload);
+  FLogDownloadController.Alterar(FCodigo, Now);
 end;
 
 procedure TThreadDownload.ConfigurarHTTPDownload;
@@ -90,25 +89,18 @@ begin
 
   FProgressBar := AProgressBar;
   ConfigurarHTTPDownload;
-  FLogDownload := TLogDownload.Create;
   FLogDownloadController := TLogDownloadController.Create;
 end;
 
 
 destructor TThreadDownload.Destroy;
 begin
-  FreeAndNil(FLogDownload);
   FreeAndNil(FLogDownloadController);
 end;
 
 procedure TThreadDownload.FazerDownload(AUrl: string);
 begin
-
-  FlogDownload.Url := AUrl;
-  FlogDownload.DataInicio := Now;
-  FLogDownloadController.Inserir(FlogDownload);
-
-  FlogDownload := FLogDownloadController.BuscarUltimoRegistroInserido;
+  FCodigo := FLogDownloadController.Inserir(AUrl, Now);
 
   FTarefa := TTask.Create(
     procedure
@@ -129,15 +121,13 @@ begin
             FIdHTTP.Get(StringReplace(AUrl,'https','http',[rfReplaceAll]), Arquivo);
             FStatus := stFinalizadoComSucesso;
 
-            FlogDownload.DataFim := Now;
-            FLogDownloadController.Alterar(FlogDownload);
+            FLogDownloadController.Alterar(FCodigo, Now);
 
           except
             On E: Exception do
             begin
               FStatus := stFinalizadoComErro;
-              FlogDownload.DataFim := Now;
-              FLogDownloadController.Alterar(FlogDownload);
+              FLogDownloadController.Alterar(FCodigo, Now);
               raise Exception.Create('Erro ao realizar o download do arquivo.' + sLineBreak + E.Message);
             end;
           end;
@@ -159,8 +149,7 @@ begin
     on E:Exception do
     begin
       FStatus := stFinalizadoComErro;
-      FlogDownload.DataFim := Now;
-      FLogDownloadController.Alterar(FlogDownload);
+      FLogDownloadController.Alterar(FCodigo, Now);
       raise Exception.Create('Erro ao rodar thread: ' + E.Message);
     end;
   end;

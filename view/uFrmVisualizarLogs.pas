@@ -23,14 +23,14 @@ var
 
 implementation
 
-uses uLogDownloadController;
+uses Controller.LogDownload;
 
 {$R *.dfm}
 
 procedure TfrmVisualizarLogs.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-  Self := nil;
+  frmVisualizarLogs := nil;
   Action := caFree;
 end;
 

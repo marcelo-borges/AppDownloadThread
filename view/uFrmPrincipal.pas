@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   IdTCPConnection, IdTCPClient, IdHTTP, IdAntiFreezeBase, Vcl.IdAntiFreeze,
   IdBaseComponent, IdComponent, IdIOHandler, IdIOHandlerSocket,
-  IdIOHandlerStack, IdSSL, IdSSLOpenSSL, Vcl.ComCtrls, uThreadDownload;
+  IdIOHandlerStack, IdSSL, IdSSLOpenSSL, Vcl.ComCtrls, Model.ThreadDownload;
 
 type
   TfrmPrincipal = class(TForm)
