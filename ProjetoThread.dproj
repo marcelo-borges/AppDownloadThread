@@ -87,23 +87,22 @@
             <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="dao\uDmConexao.pas">
+        <DCCReference Include="model\Model.DmConexao.pas">
             <Form>dmConexao</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="dao\uDmLogDownload.pas">
+        <DCCReference Include="model\Model.DmLogDownload.pas">
             <Form>dmLogDownload</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="model\uLogDownload.pas"/>
-        <DCCReference Include="controller\uLogDownloadController.pas"/>
+        <DCCReference Include="controller\Controller.LogDownload.pas"/>
         <DCCReference Include="view\uFrmVisualizarLogs.pas">
             <Form>frmVisualizarLogs</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="threads\uThreadDownload.pas"/>
+        <DCCReference Include="model\Model.ThreadDownload.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

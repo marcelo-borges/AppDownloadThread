@@ -5,7 +5,7 @@ object frmVisualizarLogs: TfrmVisualizarLogs
   BorderWidth = 5
   Caption = 'Visualizar Logs de Downloads'
   ClientHeight = 419
-  ClientWidth = 776
+  ClientWidth = 919
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object frmVisualizarLogs: TfrmVisualizarLogs
   object dbgDados: TDBGrid
     Left = 0
     Top = 0
-    Width = 776
+    Width = 919
     Height = 419
     Align = alClient
     DataSource = dsLogDownload
@@ -51,14 +51,14 @@ object frmVisualizarLogs: TfrmVisualizarLogs
         Expanded = False
         FieldName = 'DATAINICIO'
         Title.Caption = 'Data In'#237'cio'
-        Width = 125
+        Width = 182
         Visible = True
       end
       item
         Expanded = False
         FieldName = 'DATAFIM'
         Title.Caption = 'Data Fim'
-        Width = 128
+        Width = 173
         Visible = True
       end>
   end
