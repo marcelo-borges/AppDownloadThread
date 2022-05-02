@@ -12,7 +12,6 @@ uses
 
 type
   TdmLogDownload = class(TdmConexao)
-    procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
     { Private declarations }
@@ -81,11 +80,6 @@ begin
   end;
 end;
 
-procedure TdmLogDownload.DataModuleCreate(Sender: TObject);
-begin
-  inherited Create(nil);
-end;
-
 procedure TdmLogDownload.DataModuleDestroy(Sender: TObject);
 begin
   qryAuxiliar.Close;
@@ -99,8 +93,8 @@ begin
   qryAuxiliar.SQL.Clear;
   qryAuxiliar.SQL.Add('INSERT INTO LOGDOWNLOAD(URL, DATAINICIO)');
   qryAuxiliar.SQL.Add(' VALUES(:URL, :DATAINICIO) ');
-  qryAuxiliar.Fields.FieldByName('URL').AsString := AUrl;
-  qryAuxiliar.Fields.FieldByName('DATAINICIO').AsDateTime := ADataInicio;
+  qryAuxiliar.Params.ParamByName('URL').AsString := AUrl;
+  qryAuxiliar.Params.ParamByName('DATAINICIO').AsDateTime := ADataInicio;
 
   try
     qryAuxiliar.ExecSQL;
